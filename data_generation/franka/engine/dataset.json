@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": "Semigroup-JEPA Franka Basket generator constants",
+  "task": "franka_paddle_hit_ball_to_basket",
+  "dataset_version": "v1",
+  "total_episodes": 13000,
+  "train_episodes": 8000,
+  "test_episodes": 5000,
+  "test_episodes_per_gravity": 200,
+  "frames_per_episode": 64,
+  "fps": 16,
+  "resolution": [
+    256,
+    256
+  ],
+  "base_seed": 20260807,
+  "fixed_basket": [
+    -0.59,
+    0.0,
+    0.8,
+    0.245,
+    0.25,
+    0.018
+  ],
+  "default_outcome_pattern": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "undershoot",
+    "overshoot",
+    "left_right_miss",
+    "rim_hit",
+    "invalid_robot_contact",
+    "no_paddle_contact"
+  ]
+}

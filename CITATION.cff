@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the Semigroup-JEPA paper."
+title: "Semigroup-JEPA: Latent Dynamics Consistency for Zero-Shot Physics Generalization"
+type: software
+version: 0.1.0
+date-released: 2026-09-05
+authors:
+  - name: "Semigroup-JEPA Contributors"
+repository-code: "https://github.com/sg-jepa/sg-jepa"
+license: MIT

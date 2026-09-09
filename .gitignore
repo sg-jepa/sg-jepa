@@ -1,0 +1,38 @@
+refs/
+papers/
+preprint/
+checklist/
+/sg-jepa.github.io/
+
+# Local environments and caches
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.egg-info/
+
+# Local artifacts and experiment output
+artifacts/
+checkpoints/
+datasets/
+outputs/
+/output/
+runs/
+wandb/
+provenance/local_artifacts.yaml
+data/**/*.lance/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/

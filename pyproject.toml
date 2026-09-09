@@ -1,0 +1,125 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sg-jepa"
+version = "0.1.0"
+description = "Semigroup-JEPA world models for physics generalization"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10,<3.13"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "einops>=0.8,<0.9",
+  "numpy>=2.0,<3",
+  "Pillow>=11,<13",
+  "PyYAML>=6,<7",
+  "torch>=2.3,<3",
+  "transformers>=4.48,<6",
+]
+
+[project.optional-dependencies]
+data = [
+  "h5py>=3.12",
+  "mujoco>=3.3,<4",
+  "pyarrow>=18",
+  "pylance>=0.20",
+]
+hub = [
+  "huggingface-hub>=0.28,<2",
+  "safetensors>=0.5,<1",
+]
+notebook = [
+  "ipywidgets>=8.1,<9",
+  "jupyterlab>=4,<5",
+  "nbclient>=0.10,<1",
+  "nbformat>=5.10,<6",
+]
+dev = [
+  "pytest>=8.3,<10",
+  "ruff>=0.9,<1",
+  "safetensors>=0.5,<1",
+]
+
+[project.urls]
+Repository = "https://github.com/sg-jepa/sg-jepa"
+Checkpoints = "https://huggingface.co/datasets/sg-jepa/sg-jepa"
+
+[tool.hatch.build]
+skip-excluded-dirs = true
+exclude = [
+  "/.git",
+  "/.venv",
+  "/.pytest_cache",
+  "/.ruff_cache",
+  "/artifacts",
+  "/build",
+  "/checklist",
+  "/datasets",
+  "/dist",
+  "/outputs",
+  "/papers",
+  "/preprint",
+  "/refs",
+  "/runs",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["sg_jepa", "data_generation"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/.gitignore",
+  "/README.md",
+  "/LICENSE",
+  "/CITATION.cff",
+  "/CHECKPOINTS.md",
+  "/THIRD_PARTY_NOTICES.md",
+  "/requirements-paper-cu128.txt",
+  "/pyproject.toml",
+  "/uv.lock",
+  "/assets",
+  "/configs",
+  "/data/README.md",
+  "/data_generation",
+  "/examples",
+  "/sg_jepa",
+  "/notebooks",
+  "/scripts/aggregate_control_evaluations.py",
+  "/scripts/convert_checkpoint.py",
+  "/scripts/merge_franka_shards.py",
+  "/scripts/verify_examples.py",
+  "/tests",
+  "/train.py",
+  "/train_probe.py",
+  "/train_policy.py",
+  "/evaluate_prediction.py",
+  "/evaluate_control.py",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"data_generation/mujoco/engine/*.py" = ["E402"]
+"data_generation/franka/engine/*.py" = ["E402"]

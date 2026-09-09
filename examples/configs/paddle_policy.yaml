@@ -1,0 +1,55 @@
+policy:
+  observation_horizon: 20
+  action_horizon: 16
+  execution_horizon: 4
+  embedding_dim: 256
+  action_dim: 5
+  diffusion_steps: 100
+  diffusion_step_embed_dim: 256
+  down_dims: [256, 512, 1024]
+  kernel_size: 5
+  n_groups: 8
+  clip_sample: true
+  feature_mode: projected_cls
+  condition_spec: projected_cls_gravity
+  control_codec: paddle_tilt_vector
+  max_tilt_theta: 0.5235987755982988
+  history_contract: repeat_frame_zero_v1
+  observation_adapter: latent_gru
+  adapter_hidden_dim: 64
+  adapter_output_dim: 16
+  gru_hidden_dim: 256
+  gru_num_layers: 2
+  gru_dropout: 0.0
+training:
+  steps: 300000
+  batch_size: 256
+  learning_rate: 0.0001
+  betas: [0.95, 0.999]
+  weight_decay: 0.000001
+  warmup_steps: 500
+  validate_every: 25000
+  checkpoint_every: 25000
+  max_val_batches: 16
+  ema_inv_gamma: 1.0
+  ema_power: 0.75
+  ema_max_decay: 0.9999
+  top_k: 12
+  include_validation_in_gradient: true
+  batch_sampling: paper_paddle_two_stream_v1
+  quality_weights: data_generation/manifests/paddle_fps16_v2_quality_weights.npz
+  quality_weights_sha256: 92418b6c91131f35b138d9371624ff7d5291198d01bd44b7bdceeeabf7f269e6
+  seed: 42
+  # Features are precomputed into per-episode CPU tensors before policy training.
+  # Worker spawning would serialize thousands of tensor storages and can exhaust
+  # the per-process file-descriptor limit on full-size datasets.
+  num_workers: 0
+  precision: bf16
+  gravity_normalization: fixed_physical_range_0_20
+  feature_cache_dtype: fp16
+evaluation:
+  sampler: ddpm
+  inference_steps: 100
+  eta: 0.0
+  precision: bf16
+  rollout_seeds: 5

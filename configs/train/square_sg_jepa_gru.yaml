@@ -1,0 +1,47 @@
+name: square-sg-jepa-gru
+model:
+  image_size: 128
+  patch_size: 8
+  encoder_scale: tiny
+  embed_dim: 256
+  action_dim: 3
+  history_size: 20
+  predictor_kind: gru
+  predictor_hidden_dim: 512
+  predictor_depth: 3
+  predictor_heads: 16
+  predictor_mlp_dim: 2048
+  predictor_dim_head: 64
+  predictor_dropout: 0.1
+  predictor_emb_dropout: 0.0
+  predictor_conditioning: concat
+  predictor_residual_init: 0.1
+  projector_hidden_dim: 2048
+objective:
+  prediction_weight: 0.0
+  rollout_weight: 1.0
+  rollout_horizon: 5
+  rollout_gamma: 0.95
+  target_detach: false
+  sigreg_weight: 0.72
+  sigreg_knots: 17
+  sigreg_num_proj: 1024
+train:
+  epochs: 20
+  batch_size: 64
+  learning_rate: 0.00005
+  muon_learning_rate: 0.0001
+  weight_decay: 0.001
+  muon_momentum: 0.95
+  muon_ns_steps: 5
+  muon_rms_match_scale: 0.4
+  lr_schedule: warmup_cosine_cooldown
+  lr_warmup_epochs: 1.0
+  lr_cooldown_start_fraction: 0.8
+  lr_min_factor: 0.1
+  gradient_clip: 1.0
+  num_workers: 8
+  drop_last: true
+  checkpoint_every_epochs: 5
+  seed: 42
+  precision: bf16

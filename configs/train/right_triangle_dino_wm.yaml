@@ -1,0 +1,34 @@
+schema_version: 1
+name: right-triangle-dino-wm
+predictor:
+  history_size: 20
+  num_patches: 64
+  visual_dim: 384
+  action_dim: 3
+  proprio_dim: 1
+  action_emb_dim: 10
+  proprio_emb_dim: 10
+  depth: 6
+  heads: 16
+  mlp_dim: 2048
+  dim_head: 64
+  dropout: 0.1
+  emb_dropout: 0.0
+  attention_backend: sdpa
+encoder:
+  model: dinov2_vits14
+  source_revision: 85a24602099d397264d5b30461ad7f3bfd726ca1
+  feature_key: x_norm_patchtokens
+  weights_sha256: b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9
+train:
+  epochs: 20
+  batch_size: 32
+  learning_rate: 0.0005
+  muon_learning_rate: 0.0001
+  weight_decay: 0.01
+  muon_momentum: 0.95
+  muon_ns_steps: 5
+  muon_rms_match_scale: 0.4
+  gradient_clip: 1.0
+  seed: 42
+  precision: bf16

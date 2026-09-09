@@ -1,0 +1,44 @@
+policy:
+  observation_horizon: 20
+  action_horizon: 16
+  execution_horizon: 8
+  embedding_dim: 384
+  action_dim: 3
+  diffusion_steps: 100
+  diffusion_step_embed_dim: 256
+  down_dims: [256, 512, 1024]
+  kernel_size: 5
+  n_groups: 8
+  clip_sample: true
+  feature_mode: dinov2_mean_patch
+  condition_spec: dinov2_mean_patch_gravity
+  history_contract: repeat_frame_zero_v1
+  observation_adapter: latent_gru
+  adapter_hidden_dim: 64
+  adapter_output_dim: 16
+  gru_hidden_dim: 256
+  gru_num_layers: 2
+  gru_dropout: 0.0
+training:
+  steps: 300000
+  batch_size: 256
+  learning_rate: 0.0001
+  betas: [0.95, 0.999]
+  weight_decay: 0.000001
+  warmup_steps: 500
+  validate_every: 25000
+  checkpoint_every: 25000
+  max_val_batches: 16
+  ema_inv_gamma: 1.0
+  ema_power: 0.75
+  ema_max_decay: 0.9999
+  top_k: 12
+  include_validation_in_gradient: true
+  seed: 42
+  num_workers: 8
+  precision: bf16
+evaluation:
+  sampler: ddpm
+  inference_steps: 100
+  eta: 0.0
+  rollout_seeds: 5

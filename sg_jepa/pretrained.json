@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "organization": "sg-jepa",
+  "repo_type": "dataset",
+  "repository_revisions": {
+    "sg-jepa/sg-jepa": "a0345d0101f99251029fdbe7991b73c5ff763328"
+  },
+  "dinov2": {
+    "model": "dinov2_vits14",
+    "source_revision": "85a24602099d397264d5b30461ad7f3bfd726ca1",
+    "weights_sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+    "mirrored": false
+  },
+  "artifacts": {
+    "square-sg-jepa-gru": {
+      "kind": "world_model",
+      "repo_id": "sg-jepa/sg-jepa",
+      "filename": "square/sg-jepa-gru-epoch20.safetensors",
+      "config_filename": "square/sg-jepa-gru-epoch20.json",
+      "probe": "square-sg-jepa-gru-probe",
+      "action_statistics": {
+        "mean": [7.92297354022455e-06, -1.4963571682690397e-06, 4.000129719045427],
+        "std": [0.02233178338717777, 0.022381227809276073, 0.4941285823137528]
+      },
+      "source": {"filename": "weights_epoch_20.pt", "bytes": 89133124, "sha256": "490d12949b2a11d26b5bd0c70ad6137babf77b92285f82cac30d04bd6397a131", "revision": "v10_square128_gru_transformer_epoch20_seed42/gru"}
+    },
+    "square-sg-jepa-gru-probe": {
+      "kind": "probe",
+      "repo_id": "sg-jepa/sg-jepa",
+      "filename": "square/sg-jepa-gru-state-probe.safetensors",
+      "config_filename": "square/sg-jepa-gru-state-probe.json",
+      "source": {"filename": "probe_weights.pt", "bytes": 2644513, "sha256": "4018c3226db5ea881bbf0fa88150bf3c3b737b12c2aa81029d6f0bf3c2585291", "revision": "paper_2d_shape_comparison_seed42/probes/square/gru/mlp"}
+    },
+    "franka-sg-jepa-gru": {
+      "kind": "world_model",
+      "repo_id": "sg-jepa/sg-jepa",
+      "filename": "franka-basket/sg-jepa-gru-epoch20.safetensors",
+      "config_filename": "franka-basket/sg-jepa-gru-epoch20.json",
+      "policy": "franka-sg-jepa-gru-policy",
+      "source": {"filename": "weights_epoch_20.pt", "bytes": 89575556, "sha256": "bd22633894e0447473dc57fbc0b7451fa90007680e2b67d343e9c4196560af15", "revision": "v10_gru_h20k5_256_3d_prod_fps16_franka_basket_sigreg_sweep_20260811/gru_sigreg0p09"}
+    },
+    "franka-sg-jepa-gru-policy": {
+      "kind": "policy",
+      "repo_id": "sg-jepa/sg-jepa",
+      "filename": "franka-basket/sg-jepa-diffusion-policy-ema-step300000.safetensors",
+      "config_filename": "franka-basket/sg-jepa-diffusion-policy-ema-step300000.json",
+      "encoder": "franka-sg-jepa-gru",
+      "evaluation": {"sampler": "ddim", "inference_steps": 10, "eta": 0.0, "planning_horizon": 16, "execution_horizon": 8},
+      "source": {"filename": "policy_step_300000_ema_inference.pt", "bytes": 278846871, "sha256": "e6c4f2e21fd3dc578d89b84db329cc9cc623fe5548f7cb3d519bb80c56676409", "revision": "franka_corrected_actions_v2/gru_sigreg0p09"}
+    },
+    "franka-dino-policy": {
+      "kind": "policy",
+      "repo_id": "sg-jepa/sg-jepa",
+      "filename": "franka-basket/dino-diffusion-policy-ema-step300000.safetensors",
+      "config_filename": "franka-basket/dino-diffusion-policy-ema-step300000.json",
+      "encoder": "dinov2-vits14-upstream",
+      "evaluation": {"sampler": "ddim", "inference_steps": 10, "eta": 0.0, "planning_horizon": 16, "execution_horizon": 8},
+      "source": {"filename": "policy_step_300000_ema_inference.pt", "bytes": 279241623, "sha256": "9dc4c6779eef355f41bbba8041b58210344cb6b728564ff05a33a5a561309c6f", "revision": "franka_corrected_actions_v2/dino"}
+    },
+    "paddle-sg-jepa-gru": {
+      "kind": "world_model",
+      "repo_id": "sg-jepa/sg-jepa",
+      "filename": "arm-paddle/sg-jepa-gru-epoch20.safetensors",
+      "config_filename": "arm-paddle/sg-jepa-gru-epoch20.json",
+      "policy": "paddle-sg-jepa-gru-policy",
+      "source": {"filename": "weights_epoch_20.pt", "bytes": 89575556, "sha256": "8af2d94728e45c60c6dea1fad3ccef0dca96ecb9808575ff1401150401c1c945", "revision": "v10_gru_h20k5_arm_paddle_ball_fps16_v2_sigreg_e10_plus10_20260804/sigreg0p72"}
+    },
+    "paddle-sg-jepa-gru-policy": {
+      "kind": "policy",
+      "repo_id": "sg-jepa/sg-jepa",
+      "filename": "arm-paddle/sg-jepa-diffusion-policy-ema-step300000.safetensors",
+      "config_filename": "arm-paddle/sg-jepa-diffusion-policy-ema-step300000.json",
+      "encoder": "paddle-sg-jepa-gru",
+      "evaluation": {"sampler": "ddpm", "inference_steps": 100, "eta": 0.0, "planning_horizon": 16, "execution_horizon": 4},
+      "source": {"filename": "policy_step_300000_ema_inference.pt", "bytes": 278874135, "sha256": "28ec51ca80ea8ed6c9ff308afc5771d1841f6b5ebd2de6163d782324ea1f62e0", "revision": "arm_paddle_ball_fps16_v2/lewm_latent_gru_epoch_compare_v1/s072_e20"}
+    },
+    "paddle-dino-policy": {
+      "kind": "policy",
+      "repo_id": "sg-jepa/sg-jepa",
+      "filename": "arm-paddle/dino-diffusion-policy-ema-step250000.safetensors",
+      "config_filename": "arm-paddle/dino-diffusion-policy-ema-step250000.json",
+      "encoder": "dinov2-vits14-upstream",
+      "evaluation": {"sampler": "ddpm", "inference_steps": 100, "eta": 0.0, "planning_horizon": 16, "execution_horizon": 8},
+      "source": {"filename": "policy_step_250000_ema_inference.pt", "bytes": 279272663, "sha256": "09b487dbb7a809e55c5b0287377dbd8f05f7c741571983ae1ee8ea93c9d7d97b", "revision": "arm_paddle_ball_fps16_v2_dino/dino_mean_patch_policy_compare_v1/latent_gru"}
+    }
+  }
+}

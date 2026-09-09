@@ -1,0 +1,129 @@
+schema_version: 1
+purpose: Public generation defaults for the six main-text datasets
+
+shared_contract:
+  pixel_layout: episode,time,channel,height,width
+  split_ids: {train: 0, test: 1}
+  gravity_is_exogenous: true
+  full_payload_location: external artifact store
+
+tasks:
+  right_triangle:
+    family: planar_box
+    source_revision: 64732110c7f776f34d66d02522bcd29672b302d6
+    source_lock_group: planar_generator
+    historical_task: box
+    shape_mode: right_triangle_only
+    shape_id: 4
+    fixed_right_triangle_hypotenuse: 2.0
+    base_seed: 20260525
+    image_size: 128
+    frames_per_episode: 64
+    fps: 16
+    action_schema: [impulse_x, impulse_z, g]
+    generation:
+      episodes: 48000
+      train_episodes: 8000
+      test_episodes: 40000
+      test_gravities: [-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0]
+      test_episodes_per_gravity: 1600
+      train_gravity: {distribution: normal, mean: 4.0, std: 0.5, clip_min: 0.1}
+    paper_evaluation:
+      selection: fixed source-episode manifest
+      episodes_per_gravity: 200
+      manifest: data_generation/manifests/planar_test_gstrat200_seed42.json
+      manifest_sha256: 5677dace2341ecaa167de5a99a8cb450007d6645e7558b657537d44103859c5a
+      original_manifest_sha256: 9a356209c6007db00bba5f9a648cfa5c24e85d557345c590fade100ec535bc15
+
+  square:
+    family: planar_box
+    source_revision: 64732110c7f776f34d66d02522bcd29672b302d6
+    source_lock_group: planar_generator
+    historical_task: box
+    shape_mode: square_only
+    shape_id: 1
+    fixed_box_half_extent: 1.0
+    base_seed: 20260525
+    image_size: 128
+    frames_per_episode: 64
+    fps: 16
+    action_schema: [impulse_x, impulse_z, g]
+    generation:
+      episodes: 48000
+      train_episodes: 8000
+      test_episodes: 40000
+      test_gravities: [-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0]
+      test_episodes_per_gravity: 1600
+      train_gravity: {distribution: normal, mean: 4.0, std: 0.5, clip_min: 0.1}
+    paper_evaluation:
+      selection: fixed source-episode manifest
+      episodes_per_gravity: 200
+      manifest: data_generation/manifests/planar_test_gstrat200_seed42.json
+      manifest_sha256: 5677dace2341ecaa167de5a99a8cb450007d6645e7558b657537d44103859c5a
+      original_manifest_sha256: 9a356209c6007db00bba5f9a648cfa5c24e85d557345c590fade100ec535bc15
+
+  approach_ball:
+    family: historical_3d
+    source_revision: ecd0759ac2d5fe65b60be99048c761aaca4bd92f
+    source_lock_group: historical_3d_generators.tasks.approach_ball
+    historical_task: approach_ball
+    base_seed: 20260525
+    image_size: 256
+    frames_per_episode: 64
+    fps: 16
+    action_schema: [g]
+    generation: {train_episodes: 8000, test_episodes: 1600}
+    paper_evaluation:
+      episodes: 1600
+      episodes_per_gravity: 60-65
+      selection: original held-out cohort; not the later 3400-episode augmentation
+      public_artifact: compact evaluation cohort or authoritative manifest
+
+  arm_catcher_ball:
+    family: historical_3d
+    source_revision: 2f7db523e6aadbbcb5425d9793862e52a0032ef3
+    source_lock_group: historical_3d_generators.tasks.arm_catcher_ball
+    historical_task: arm_catcher_ball
+    base_seed: 20260525
+    image_size: 256
+    frames_per_episode: 64
+    fps: 16
+    action_schema: [g, dx, dy, dz]
+    generation: {train_episodes: 8000, test_episodes: 1600}
+    paper_evaluation: {test_gravity_count: 23}
+    checkpoint_support: training and evaluation source only; SG encoder unavailable
+
+  arm_paddle_ball:
+    family: historical_3d
+    source_revision: a87e0e19e19d7f28657ea48941168eb9ab22b99a
+    source_lock_group: historical_3d_generators.tasks.arm_paddle_ball
+    historical_task: arm_paddle_ball
+    variant: fps16_v2
+    base_seed: 20260525
+    image_size: 256
+    frames_per_episode: 64
+    fps: 16
+    action_schema: [g, dx, dy, dz, phi, theta]
+    generation: {train_episodes: 8000, test_episodes: 1600}
+    paper_evaluation: {selection: fixed source-episode IDs across five rollout seeds}
+
+  franka_basket:
+    family: franka_paddle_to_basket
+    source_lock_group: franka_generator
+    inherited_source: franka_paddle_intercept_ball_g9p8_sideways_v1
+    base_seed: 20260807
+    menagerie_revision: c1a4eeb85694ae1dffe33ff1797d4e528928a133
+    image_size: 256
+    frames_per_episode: 64
+    fps: 16
+    action_schema: [g, dx, dy, dz, phi, theta]
+    fixed_basket:
+      center: [-0.59, 0.0, 0.80]
+      opening_radius: 0.245
+      depth: 0.25
+    generation:
+      train_episodes: 8000
+      test_episodes: 5000
+      test_gravity_count: 25
+      test_episodes_per_gravity: 200
+    paper_evaluation: {selection: fixed manifest, rollout_seeds: 5}

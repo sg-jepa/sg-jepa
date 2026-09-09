@@ -1,0 +1,51 @@
+policy:
+  observation_horizon: 20
+  action_horizon: 16
+  execution_horizon: 8
+  embedding_dim: 256
+  action_dim: 5
+  diffusion_steps: 100
+  diffusion_step_embed_dim: 256
+  down_dims: [256, 512, 1024]
+  kernel_size: 5
+  n_groups: 8
+  clip_sample: true
+  feature_mode: projected_cls
+  condition_spec: projected_cls_gravity
+  history_contract: repeat_frame_zero_v1
+  observation_adapter: latent_gru
+  adapter_hidden_dim: 64
+  adapter_output_dim: 16
+  gru_hidden_dim: 256
+  gru_num_layers: 2
+  gru_dropout: 0.0
+training:
+  steps: 300000
+  batch_size: 256
+  learning_rate: 0.0001
+  betas: [0.95, 0.999]
+  weight_decay: 0.000001
+  warmup_steps: 500
+  validate_every: 25000
+  checkpoint_every: 25000
+  max_val_batches: 16
+  ema_inv_gamma: 1.0
+  ema_power: 0.75
+  ema_max_decay: 0.9999
+  top_k: 1
+  include_validation_in_gradient: true
+  batch_sampling: franka_strike_balanced_v1
+  action_reconstruction: full_range_pose_delta_v2
+  seed: 42
+  # Features are precomputed into per-episode CPU tensors before policy training.
+  # Worker spawning would serialize thousands of tensor storages and can exhaust
+  # the per-process file-descriptor limit on full-size datasets.
+  num_workers: 0
+  precision: bf16
+  gravity_normalization: successful_train_zscore
+  feature_cache_dtype: fp16
+evaluation:
+  sampler: ddim
+  inference_steps: 10
+  eta: 0.0
+  rollout_seeds: 5
